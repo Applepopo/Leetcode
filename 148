@@ -1,0 +1,52 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* sortList(ListNode* head) {
+        //if list length <=1, no need to sort, return list;
+        if(!head or !head->next){
+            return head;
+        }
+        
+        ListNode* fast = head;
+        ListNode* slow = head;
+        while(fast->next and fast->next->next){
+            fast = fast->next->next;
+            slow = slow->next;
+        }
+        
+        ListNode* righthead = slow->next;
+        slow->next = NULL;
+        ListNode* left = sortList(head);
+        ListNode* right = sortList(righthead);
+        return merge(left, right);
+    }
+    
+    
+    ListNode *merge(ListNode *a, ListNode *b){
+        if(!a) return b;
+        if(!b) return a;
+        ListNode *dummy = new ListNode(0);
+        ListNode *p = dummy;
+        while (a and b){
+            if(a->val<b->val){
+                p->next = a;
+                a = a->next;
+            }
+            else{
+                p->next = b;
+                b=b->next;
+            }
+            p=p->next;
+        }
+        if(a) p->next = a;
+        if(b) p->next = b;
+        return dummy->next;
+    }
+};
