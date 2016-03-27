@@ -1,0 +1,55 @@
+Reverse a linked list from position m to n. Do it in-place and in one-pass.
+
+For example:
+Given 1->2->3->4->5->NULL, m = 2 and n = 4,
+
+return 1->4->3->2->5->NULL.
+
+Note:
+Given m, n satisfy the following condition:
+1 ≤ m ≤ n ≤ length of list.
+
+Algorithm:
+
+(1) check edge cases:
+a. If m<=n;
+b. If m<1;
+c. If list has no node or just one node (head==NULL or head->next==NULL)
+If any of the above cases is true, no need to reverse, return the original list.
+
+(2) find the (m-1)th node, mark it as A
+ 
+(3) reverse list from mth node (using the same algorithm in reverse linked list I) till nth node. Mark the (n+1)th node as B.
+The head and tail of the reversed list are C and D, respectively.
+
+(4) connect the old list with the new reversed list.
+A->C....D->B.
+
+Note that a dummy node is needed in case m=1. 
+
+Code(C++):
+ListNode *reverseBetween(ListNode *head, int m, int n) {
+        if(m<1 || m>=n || !head) return head;
+        ListNode *dummy = new ListNode(0);
+        dummy->next = head;
+        head = dummy;
+        
+        // move head to (m-1)th node
+        for(int i=0; i<m-1; i++)
+            head = head->next;
+        
+        // reverse list from pre with length n-m+1    
+        ListNode *pre = head->next, *cur = pre->next;
+        for(int i=0; i<n-m; i++) {
+            ListNode *temp = cur->next;
+            cur->next = pre;
+            pre = cur;
+            cur = temp;
+        }
+        
+        head->next->next = cur;
+        head->next = pre;
+        head = dummy->next;
+        delete dummy;
+        return head;
+    }
