@@ -1,0 +1,32 @@
+class Solution {
+public:
+    /**
+     * @param n n pairs
+     * @return All combinations of well-formed parentheses
+     */
+    vector<string> generateParenthesis(int n) {
+        // Write your code here
+        vector<string> res;
+        string s;
+        Helper(res, s, 0, 0, n);
+        return res;
+    }
+    
+    void Helper(vector<string> &res, string s, int l, int r, int n){
+        if (r == n){
+            res.push_back(s);
+            return;
+        }
+        else if (l == n){
+            s += ')';
+            Helper(res, s, l, r+1, n);
+        }
+        else{
+            if (l>r){
+                Helper(res, s+')', l, r+1, n);
+            }
+            Helper(res, s+'(', l+1, r, n);
+        }
+        return;
+    }
+};
