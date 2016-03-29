@@ -1,0 +1,40 @@
+class Solution {
+public:
+    int divide(int dividend, int divisor) {
+        if(dividend == 0 ) {
+            return divisor == 0? 1:0;
+        }
+            
+        if(divisor == 0){
+            if(dividend < 0){
+                return INT_MIN;
+            }
+            else{
+                return INT_MAX;
+            }
+        }
+        
+        if(dividend == divisor){
+            return 1;
+        }
+        if(dividend==INT_MIN && divisor==-1) return INT_MAX;
+            
+        long long new_dividend = abs((long long)dividend);
+        long long new_divisor = abs((long long)divisor);
+        long long dvs = new_divisor;
+        
+        int p = 0;
+        while(new_divisor<<(p+1) <= new_dividend) p++;
+        
+        int res = 0;
+        while(dvs <= new_dividend){
+            if(new_divisor<<p <= new_dividend){
+                new_dividend -= new_divisor<<p;
+                res += 1<<p;
+            }
+            p--;
+        }
+        if((dividend < 0 and divisor > 0) or (dividend >0 and divisor<0)) return 0-res;
+        return res;
+    }
+};
