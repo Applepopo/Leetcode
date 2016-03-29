@@ -1,0 +1,28 @@
+class Solution {
+public:
+    vector<string> generateParenthesis(int n) {
+        vector<string> vec;
+        if(n==0) return vec;
+        string st="";
+        Helper(n, vec, st, 0);
+        return vec;
+    }
+    
+    void Helper(int n, vector<string> &vec, string st, int num){
+        if(st.size() == 2*n){
+            vec.push_back(st);
+            return;
+        }
+        if(num < n){
+                st += '(';
+                Helper(n, vec, st, num+1);
+                st.pop_back();
+        }
+        if(num > st.size()-num){
+                st += ')';
+                Helper(n, vec, st, num);
+                st.pop_back();
+        }
+    
+    }
+};
