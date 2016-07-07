@@ -1,0 +1,32 @@
+class Solution {
+public:
+    /**
+     * @param nums: an array of integer
+     * @param target: an integer
+     * @return: an integer
+     * Input array needs to be sorted first. Search array from both sides of the array by using two pointers. 
+     * O(nlogn) time complexity.
+     */
+    int twoSum2(vector<int> &nums, int target) {
+        // Write your code here
+        int size = nums.size();
+        if(size <= 0){
+            return 0;
+        }
+        int res = 0;
+        sort(nums.begin(), nums.end());
+        int start = 0;
+        int end = size - 1;
+        while(start < end){
+            if(nums[start]+nums[end] > target ){
+                res += (end - start);
+                end--;
+            }
+            else{
+                start++;
+            }
+        }
+        
+        return res;
+    }
+};
